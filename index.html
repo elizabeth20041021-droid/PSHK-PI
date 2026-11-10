@@ -1,964 +1,615 @@
 <!DOCTYPE html>
-<html lang="zh-HK">
+<html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>輝立證券 | 專業投資者認證 (PSHK PI Flow V4)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>過聆訊後新股推薦｜先通國際醫藥-B 聚焦</title>
 <style>
   :root {
-    --primary: #1a1a1a;
-    --accent: #0a84ff;
-    --success: #34c759;
-    --danger: #ff3b30;
-    --warning: #ff9500;
-    --bg: #f5f5f7;
-    --card: #ffffff;
-    --text: #1d1d1f;
-    --text-sec: #6e6e73;
-    --border: #e5e5ea;
-    --radius: 12px;
+    --navy: #0f2744; --gold: #d69e2e; --green: #276749; --blue: #2b6cb0;
+    --gray: #4a5568; --bg: #f7fafc; --card: #fff; --border: #e2e8f0;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "PingFang HK", "Microsoft JhengHei", sans-serif;
-    background: #000;
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
+    font-family: "Microsoft YaHei", "PingFang TC", "Noto Sans TC", "PingFang SC", sans-serif;
+    background: var(--bg); color: #1a202c; line-height: 1.55; font-size: 15px;
   }
-  .phone {
-    width: 100%;
-    max-width: 430px;
-    min-height: 100vh;
-    background: var(--bg);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 0 40px rgba(0,0,0,0.4);
+  .topbar {
+    background: var(--navy); color: #fff; padding: 14px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 100;
   }
-  /* Status bar */
-  .status-bar {
-    height: 44px;
-    background: #000;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    font-size: 14px;
-    font-weight: 600;
+  .topbar .brand { font-weight: 700; font-size: 16px; }
+  .topbar .meta { font-size: 12px; opacity: .75; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 24px 16px 60px; }
+  .hero {
+    background: linear-gradient(135deg, #0f2744 0%, #1a365d 100%);
+    color: #fff; border-radius: 16px; padding: 28px 24px; margin-bottom: 16px;
   }
-  .status-bar .icons { display: flex; gap: 6px; align-items: center; }
-  /* Header */
-  .header {
-    background: #000;
-    color: #fff;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    padding: 0 12px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+  .hero h1 { font-size: 24px; margin-bottom: 6px; }
+  .hero .sub { opacity: .85; font-size: 13px; margin-bottom: 18px; }
+  .hero-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 700px) { .hero-cards { grid-template-columns: 1fr; } }
+  .hero-card {
+    background: rgba(255,255,255,.1); border-radius: 12px; padding: 16px;
+    border: 1px solid rgba(255,255,255,.15); cursor: pointer;
+    transition: background .2s, transform .15s; color: inherit;
+    display: block; text-align: left; width: 100%; font-family: inherit;
   }
-  .header .back, .header .close {
-    width: 36px; height: 36px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; cursor: pointer; border-radius: 50%;
+  .hero-card:hover { background: rgba(255,255,255,.18); transform: translateY(-2px); }
+  .hero-card.active { background: rgba(255,255,255,.22); box-shadow: 0 0 0 2px rgba(251,211,141,.5); }
+  .hero-card .stars { color: var(--gold); font-size: 17px; letter-spacing: 1px; }
+  .hero-card .name { font-weight: 700; font-size: 16px; margin: 6px 0 4px; }
+  .hero-card .tag { font-size: 12px; opacity: .85; }
+  .hero-card .fund { margin-top: 10px; font-size: 13px; }
+  .hero-card .fund b { color: #fbd38d; }
+  .hero-card .vote-sum {
+    margin-top: 12px; padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,.18);
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 14px;
   }
-  .header .back:active, .header .close:active { background: rgba(255,255,255,0.15); }
-  .header .title {
-    flex: 1; text-align: center; font-size: 17px; font-weight: 600;
+  .vote-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: rgba(0,0,0,.28); border-radius: 999px;
+    padding: 5px 12px; font-weight: 700; font-variant-numeric: tabular-nums;
   }
-  .header .right { width: 36px; }
-  /* Progress */
-  .progress {
-    height: 3px;
-    background: #e5e5ea;
-    display: flex;
+  .vote-pill.up { color: #9ae6b4; }
+  .vote-pill.down { color: #feb2b2; }
+  .hero-card .hint { font-size: 11px; opacity: .65; margin-top: 10px; }
+  .vote-how {
+    background: #fffbeb; border: 1px solid #f6e05e; border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 16px; font-size: 13px;
+    text-align: left; color: #744210;
   }
-  .progress .bar {
-    height: 100%;
-    background: var(--accent);
-    transition: width 0.35s ease;
+  .ipo-panel {
+    background: var(--card); border-radius: 16px; margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06); border: 1px solid var(--border); overflow: hidden;
   }
-  /* Content */
-  .content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px 16px 120px;
-    -webkit-overflow-scrolling: touch;
+  .ipo-panel-head {
+    width: 100%; display: flex; align-items: center; gap: 12px;
+    padding: 16px 18px; background: #fff; border: 0; cursor: pointer;
+    font-family: inherit; text-align: left; color: inherit;
   }
-  .screen { display: none; }
-  .screen.active { display: block; animation: fadeIn 0.25s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-
-  h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; }
-  h2 { font-size: 17px; font-weight: 600; margin: 24px 0 10px; }
-  p, li { font-size: 15px; line-height: 1.55; color: var(--text-sec); }
-  .highlight { color: var(--warning); font-weight: 500; }
-  .req { color: var(--danger); }
-
-  /* Cards */
-  .card {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 16px;
-    margin-bottom: 12px;
-    border: 1px solid var(--border);
+  .ipo-panel-head:hover { background: #f7fafc; }
+  .ipo-panel.open .ipo-panel-head { border-bottom: 1px solid var(--border); }
+  .ipo-panel-head .chev { margin-left: auto; font-size: 18px; color: var(--gray); transition: transform .2s; flex-shrink: 0; }
+  .ipo-panel.open .ipo-panel-head .chev { transform: rotate(180deg); }
+  .ipo-panel-head .title-wrap { flex: 1; min-width: 0; }
+  .ipo-panel-head h2 {
+    font-size: 17px; color: var(--navy); margin: 0 0 4px;
+    display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
   }
-  .card.green { border-left: 4px solid var(--success); }
-  .card.blue { border-left: 4px solid var(--accent); }
-  .card.red { border-left: 4px solid var(--danger); }
-  .card.yellow { border-left: 4px solid var(--warning); }
-
-  /* Buttons */
-  .btn-group {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 430px;
-    background: linear-gradient(to top, #fff 70%, rgba(255,255,255,0.9));
-    padding: 12px 16px 28px;
-    display: flex;
-    gap: 10px;
-    z-index: 50;
+  .ipo-panel-head .one-liner { font-size: 12.5px; color: var(--gray); margin: 0; }
+  .ipo-panel-body { display: none; padding: 8px 22px 22px; }
+  .ipo-panel.open .ipo-panel-body { display: block; }
+  .badge {
+    display: inline-block; background: #edf2f7; color: var(--navy);
+    font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600;
   }
-  .btn {
-    flex: 1;
-    height: 50px;
-    border-radius: 25px;
-    border: none;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.2s, transform 0.1s;
+  .badge.green { background: #c6f6d5; color: #276749; }
+  .badge.blue { background: #bee3f8; color: #2b6cb0; }
+  .vote-widget {
+    background: #f8fafc; border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px 16px; margin: 12px 0 16px;
   }
-  .btn:active { transform: scale(0.97); }
-  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .btn-primary { background: var(--primary); color: #fff; }
-  .btn-secondary { background: #fff; color: var(--text); border: 1.5px solid var(--border); }
-  .btn-success { background: var(--success); color: #fff; }
-  .btn-full { width: 100%; }
-
-  /* Path choice */
-  .path-btn {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: 18px 16px;
-    margin-bottom: 12px;
-    border-radius: var(--radius);
-    border: 2px solid var(--border);
-    background: #fff;
-    cursor: pointer;
-    transition: all 0.2s;
+  .vote-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px; }
+  .vbtn {
+    border: 1.5px solid #e2e8f0; background: #fff; border-radius: 999px;
+    padding: 10px 18px; min-height: 44px; font-size: 15px; font-family: inherit;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+    color: var(--navy); transition: all .15s; touch-action: manipulation; user-select: none;
   }
-  .path-btn:hover, .path-btn.selected {
-    border-color: var(--accent);
-    background: #f0f7ff;
+  .vbtn:active { transform: scale(.97); }
+  .vbtn:disabled { opacity: .55; cursor: not-allowed; }
+  .vbtn.up.on { background: #c6f6d5; border-color: #68d391; color: #276749; font-weight: 700; }
+  .vbtn.down.on { background: #fed7d7; border-color: #fc8181; color: #c53030; font-weight: 700; }
+  .vote-status { font-size: 13px; color: var(--gray); }
+  .vote-status b { color: var(--navy); }
+  .meter { margin-top: 8px; }
+  .meter-labels { display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 6px; }
+  .meter-labels .u { color: #276749; font-weight: 600; }
+  .meter-labels .d { color: #c53030; font-weight: 600; }
+  .meter-track { height: 10px; border-radius: 999px; background: #fed7d7; overflow: hidden; display: flex; }
+  .meter-up { height: 100%; background: #48bb78; transition: width .35s ease; }
+  .section-inner h3 { font-size: 14px; color: var(--navy); margin: 16px 0 8px; font-weight: 700; }
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 12px 0 16px; }
+  @media (max-width: 700px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
+  .kpi {
+    background: #f7fafc; border-radius: 10px; padding: 12px 10px; border: 1px solid var(--border); text-align: left;
   }
-  .path-btn .tag {
-    display: inline-block;
-    font-size: 12px;
-    padding: 2px 8px;
-    border-radius: 4px;
-    margin-bottom: 6px;
-    font-weight: 600;
+  .kpi .label { font-size: 11px; color: var(--gray); }
+  .kpi .val { font-size: 15px; font-weight: 700; color: var(--navy); margin-top: 4px; }
+  .kpi .val.up { color: var(--green); }
+  ul.clean { list-style: none; padding: 0; }
+  ul.clean li { padding: 5px 0 5px 16px; position: relative; font-size: 13.5px; text-align: left; }
+  ul.clean li::before { content: "•"; position: absolute; left: 2px; color: var(--gold); font-weight: 700; }
+  ul.clean li b { color: var(--navy); }
+  .risk { color: #c53030; }
+  .meta-line { font-size: 13.5px; text-align: left; }
+  .link a { color: var(--blue); text-decoration: none; border-bottom: 1px solid #bee3f8; }
+  .peer-box {
+    background: #f0fff4; border: 1px solid #9ae6b4; border-radius: 12px;
+    padding: 14px 16px; margin-top: 14px; text-align: left;
   }
-  .path-btn .tag.a { background: #d5e8d4; color: #2d6a2e; }
-  .path-btn .tag.b { background: #f8cecc; color: #a33; }
-  .path-btn strong { display: block; font-size: 16px; margin-bottom: 4px; color: var(--text); }
-  .path-btn span { font-size: 13px; color: var(--text-sec); }
-
-  /* Checklist / Consent */
-  .consent-item {
-    display: flex;
-    gap: 12px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border);
-    align-items: flex-start;
+  .peer-box.blue { background: #ebf8ff; border-color: #90cdf4; }
+  .peer-box h4 { font-size: 13.5px; margin-bottom: 6px; color: var(--navy); }
+  .peer-box > p { font-size: 12.5px; color: var(--gray); margin-bottom: 10px; }
+  .peer-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 4px; }
+  .peer-table th, .peer-table td {
+    border: 1px solid #e2e8f0; padding: 7px 10px; text-align: left; vertical-align: top;
   }
-  .consent-item:last-child { border-bottom: none; }
-  .consent-item input[type="checkbox"] {
-    width: 22px; height: 22px;
-    margin-top: 2px;
-    accent-color: var(--accent);
-    flex-shrink: 0;
+  .peer-table th { background: #edf2f7; font-weight: 600; }
+  .section {
+    background: var(--card); border-radius: 16px; padding: 24px 22px;
+    margin-bottom: 20px; border: 1px solid var(--border);
   }
-  .consent-item label { font-size: 14px; line-height: 1.45; color: var(--text); cursor: pointer; }
-
-  /* Upload zone */
-  .upload-zone {
-    border: 2px dashed #c7c7cc;
-    border-radius: var(--radius);
-    padding: 28px 16px;
-    text-align: center;
-    background: #fafafa;
-    margin: 16px 0;
-    cursor: pointer;
-    transition: border-color 0.2s;
+  .section h2 {
+    font-size: 18px; color: var(--navy); border-left: 4px solid var(--gold);
+    padding-left: 12px; margin-bottom: 8px;
   }
-  .upload-zone:hover, .upload-zone.dragover { border-color: var(--accent); background: #f0f7ff; }
-  .upload-zone .icon { font-size: 36px; margin-bottom: 8px; }
-  .upload-list { margin-top: 12px; }
-  .upload-item {
-    display: flex; align-items: center; gap: 10px;
-    background: #fff; border: 1px solid var(--border);
-    border-radius: 8px; padding: 10px 12px; margin-bottom: 8px;
+  .other-item {
+    display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border);
+    font-size: 13.5px; text-align: left;
   }
-  .upload-item .name { flex: 1; font-size: 14px; }
-  .upload-item .remove { color: var(--danger); font-size: 18px; cursor: pointer; }
-
-  /* Example image style */
-  .example-box {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px;
-    margin-top: 12px;
-    position: relative;
+  .other-item:last-child { border-bottom: none; }
+  .other-item .num {
+    width: 28px; height: 28px; border-radius: 50%; background: #edf2f7; color: var(--navy);
+    font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
-  .example-box .badge {
-    position: absolute;
-    width: 22px; height: 22px;
-    background: var(--danger);
-    color: #fff;
-    border-radius: 50%;
-    font-size: 12px;
-    font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
+  .other-item .cname { font-weight: 700; color: var(--navy); }
+  .other-item .cinfo { color: var(--gray); font-size: 12.5px; margin-top: 2px; }
+  .other-item .cinfo a { color: var(--blue); }
+  .footer {
+    text-align: center; font-size: 12px; color: #718096;
+    margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--border);
   }
-  .req-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-    margin: 12px 0;
-  }
-  .req-table th, .req-table td {
-    border: 1px solid var(--border);
-    padding: 10px 12px;
-    text-align: left;
-    vertical-align: top;
-  }
-  .req-table th { background: #f5f5f7; width: 28%; font-weight: 600; }
-
-  /* Risk scroll */
-  .risk-box {
-    max-height: 340px;
-    overflow-y: auto;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px;
-    background: #fff;
-    margin-bottom: 16px;
-    position: relative;
-  }
-  .risk-box::-webkit-scrollbar { width: 4px; }
-  .risk-box::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
-  .scroll-hint {
-    text-align: center;
-    font-size: 13px;
-    color: var(--warning);
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-  .scroll-done { color: var(--success); }
-
-  /* Review summary */
-  .summary-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
-  }
-  .summary-row:last-child { border-bottom: none; }
-  .summary-row .label { color: var(--text-sec); }
-  .summary-row .value { font-weight: 600; text-align: right; max-width: 60%; }
-
-  /* OTP */
-  .otp-inputs {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 28px 0 16px;
-  }
-  .otp-inputs input {
-    width: 46px; height: 52px;
-    text-align: center;
-    font-size: 22px;
-    font-weight: 600;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    background: #fff;
-  }
-  .otp-inputs input:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(10,132,255,0.2);
-  }
-  .otp-timer { text-align: center; font-size: 14px; color: var(--text-sec); }
-  .otp-timer a { color: var(--accent); text-decoration: none; }
-
-  /* Status */
-  .status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-  }
-  .status-badge.pending { background: #fff3cd; color: #856404; }
-  .status-badge.approved { background: #d4edda; color: #155724; }
-  .status-badge.rejected { background: #f8d7da; color: #721c24; }
-  .status-badge.info { background: #cce5ff; color: #004085; }
-
-  /* Licensed rep card */
-  .rep-card {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px 14px;
-    margin-bottom: 16px;
-  }
-  .rep-card img {
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    background: #ddd;
-    object-fit: cover;
-  }
-  .rep-card .info { flex: 1; }
-  .rep-card .name { font-weight: 600; font-size: 15px; }
-  .rep-card .lic { font-size: 12px; color: var(--text-sec); }
-
-  /* Result big icon */
-  .result-icon {
-    width: 72px; height: 72px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 36px;
-    margin: 20px auto 16px;
-  }
-  .result-icon.ok { background: #d4edda; color: #155724; }
-  .result-icon.wait { background: #fff3cd; color: #856404; }
-
-  /* Toast */
   .toast {
-    position: fixed;
-    top: 100px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-20px);
-    background: rgba(0,0,0,0.85);
-    color: #fff;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-size: 14px;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s;
-    z-index: 200;
-    max-width: 90%;
-    text-align: center;
+    position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+    background: #0f2744; color: #fff; padding: 12px 20px; border-radius: 999px;
+    font-size: 14px; z-index: 9999; box-shadow: 0 4px 16px rgba(0,0,0,.25); max-width: 90%;
   }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  /* Small helpers */
-  .mt-8 { margin-top: 8px; }
-  .mt-12 { margin-top: 12px; }
-  .mt-16 { margin-top: 16px; }
-  .mb-8 { margin-bottom: 8px; }
-  .text-center { text-align: center; }
-  .text-sm { font-size: 13px; }
-  .fw-600 { font-weight: 600; }
-  .list-disc { padding-left: 18px; }
-  .list-disc li { margin-bottom: 6px; }
-  .divider { height: 1px; background: var(--border); margin: 16px 0; }
-  .call-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--accent);
-    font-size: 14px;
-    font-weight: 500;
-    text-decoration: none;
-    margin-top: 8px;
+  .conn-bar {
+    font-size: 12px; color: #744210; background: #fffbeb; border: 1px solid #f6e05e;
+    border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; display: none;
   }
+  .conn-bar.show { display: block; }
+  .conn-bar.err { background: #fff5f5; border-color: #feb2b2; color: #9b2c2c; }
 </style>
 </head>
 <body>
-<div class="phone">
-  <!-- Status Bar -->
-  <div class="status-bar">
-    <span id="clock">9:41</span>
-    <div class="icons">
-      <span>●●●</span>
-      <span>5G</span>
-      <span>🔋</span>
+<div class="topbar">
+  <div class="brand">輝立證券新股部</div>
+  <div class="meta">過聆訊後新股推薦 · 2026年11月10日</div>
+</div>
+<div class="wrap">
+  <div class="hero" id="overview">
+    <h1>過聆訊後新股推薦</h1>
+    <div class="sub">精選三家 · 點擊卡片展開詳情 ｜ 數據來源：港交所聆訊後資料集</div>
+    <div class="hero-cards">
+      <button type="button" class="hero-card" data-open="xt" id="hero-xt">
+        <div class="stars">★★★★★</div>
+        <div class="name">① 先通國際醫藥-B</div>
+        <div class="tag">H · 18A · 放射性藥物（核藥）</div>
+        <div class="fund">預計集資 <b>約10億</b></div>
+        <div class="vote-sum" data-sum="xiantong"><span class="vote-pill up">🐮 0</span><span class="vote-pill down">🐻 0</span></div>
+        <div class="hint">▼ 點擊展開全部詳情</div>
+      </button>
+      <button type="button" class="hero-card" data-open="tc" id="hero-tc">
+        <div class="stars">★★★★★</div>
+        <div class="name">② 天賜材料</div>
+        <div class="tag">A+H · 電解液龍頭</div>
+        <div class="fund">預計集資 <b>約55億</b></div>
+        <div class="vote-sum" data-sum="tinci"><span class="vote-pill up">🐮 0</span><span class="vote-pill down">🐻 0</span></div>
+        <div class="hint">▼ 點擊展開全部詳情</div>
+      </button>
+      <button type="button" class="hero-card" data-open="hx" id="hero-hx">
+        <div class="stars">★★★★☆</div>
+        <div class="name">③ 宏芯宇電子</div>
+        <div class="tag">H · 存儲模組 / NAND·DRAM</div>
+        <div class="fund">預計集資 <b>約26.8億</b></div>
+        <div class="vote-sum" data-sum="hosin"><span class="vote-pill up">🐮 0</span><span class="vote-pill down">🐻 0</span></div>
+        <div class="hint">▼ 點擊展開全部詳情</div>
+      </button>
     </div>
   </div>
-
-  <!-- Header -->
-  <div class="header">
-    <div class="back" id="btnBack" onclick="goBack()">‹</div>
-    <div class="title" id="headerTitle">專業投資者認證</div>
-    <div class="right"></div>
+  <div id="connBar" class="conn-bar">正在連接投票伺服器…</div>
+  <div class="vote-how">
+    <b>投票互動：</b>撳 <b>📈 升</b>／<b>📉 跌</b>，全組可見實時票數。再撳可取消。
   </div>
 
-  <!-- Progress -->
-  <div class="progress"><div class="bar" id="progressBar" style="width: 8%"></div></div>
-
-  <!-- Screens -->
-  <div class="content" id="mainContent">
-
-    <!-- ========== SCREEN 0: Entry / Hub ========== -->
-    <div class="screen active" id="screen-hub">
-      <h1>專業投資者介紹</h1>
-      <p class="mb-8">根據香港《證券及期貨條例》及《證券及期貨（專業投資者）規則》，成為專業投資者可解鎖更豐富的投資產品。</p>
-
-      <div class="card blue">
-        <strong>合規門檻</strong>
-        <p class="mt-8">個人專業投資者須持有 <span class="highlight">Net Portfolio ≥ HKD 8,000,000</span>（或等值外幣）。系統將自動扣除內部 Margin 欠款與質押借貸後計算淨資產。</p>
+  <!-- ① 先通國際醫藥-B -->
+  <div class="ipo-panel" id="panel-xt">
+    <button type="button" class="ipo-panel-head" data-open="xt">
+      <div class="title-wrap">
+        <h2>① 先通國際醫藥-B <span class="badge green">★★★★★</span> <span class="badge">H · 18A</span></h2>
+        <p class="one-liner">中國首家獲創新放射性藥物批准 · 全產業鏈核藥 · XTR008 預計 2026.12 獲批</p>
       </div>
-
-      <h2>1. 什麼是「專業投資者」？</h2>
-      <p>包括機構專業投資者、法團專業投資者及個人專業投資者。個人專業投資者指持有港元 800 萬（或等值外幣）以上投資組合的個人（現金、存款證及《證券及期貨條例》所定義證券）。</p>
-
-      <h2>2. 為何申請？</h2>
-      <p>成為專業投資者後，可參與國際配售、特定基金產品（包括僅針對專業投資者銷售的認可基金及合法的未經認可基金）等更豐富產品。</p>
-
-      <h2>3. 申請方式</h2>
-      <p>系統會根據您現有帳戶資產自動判定最優路徑：</p>
-      <ul class="list-disc mt-8">
-        <li><strong>路徑 A</strong>：輝立內部資產即時核驗（極速）</li>
-        <li><strong>路徑 B</strong>：上載外部資產證明（1 個工作天審批）</li>
+      <span class="chev">▼</span>
+    </button>
+    <div class="ipo-panel-body section-inner">
+      <div class="vote-widget" data-company="xiantong">
+        <div class="vote-actions">
+          <button type="button" class="vbtn up" data-side="up">📈 升</button>
+          <button type="button" class="vbtn down" data-side="down">📉 跌</button>
+          <span class="vote-status" data-status></span>
+        </div>
+        <div class="meter">
+          <div class="meter-labels">
+            <span class="u" data-lab-up>📈 升 0% (0)</span>
+            <span class="d" data-lab-down>📉 跌 0% (0)</span>
+          </div>
+          <div class="meter-track"><div class="meter-up" data-meter style="width:50%"></div></div>
+        </div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="label">2025 收入</div><div class="val">約 0.99 億</div></div>
+        <div class="kpi"><div class="label">2026H1 收入</div><div class="val up">0.61 億 (+66%)</div></div>
+        <div class="kpi"><div class="label">2025 淨虧損</div><div class="val">約 6.18 億</div></div>
+        <div class="kpi"><div class="label">預計集資</div><div class="val">約 10 億</div></div>
+      </div>
+      <h3>公司定位與行業地位</h3>
+      <ul class="clean">
+        <li><b>中國首家獲得創新放射性藥物上市批准</b>的企業，亦是中國首批實現全產業鏈整合的核藥公司之一（核素開發 → 研發 → 製造 → 商業化）</li>
+        <li>業務聚焦腫瘤學、神經退行性疾病、心血管疾病三大領域</li>
+        <li>已建立 3 個生產基地（無錫、中山、綿陽），總建築面積超 4 萬㎡，21 條商業規模生產線</li>
+        <li>管線共 13 項資產（5 項自主發現），核心產品 XTR008（Lutathera 仿製藥）已提交 NDA，預計 2026 年 12 月獲批</li>
       </ul>
-
-      <div class="card yellow mt-16">
-        <strong>需要協助？</strong>
-        <p class="mt-8">持牌代表可為您解釋申請細節與產品範圍。</p>
-        <a href="javascript:void(0)" class="call-btn" onclick="showToast('已提交回撥申請，客服將盡快聯絡您')">📞 一鍵預約客服 / 客戶經理電話回撥</a>
+      <h3>核心優勢</h3>
+      <ul class="clean">
+        <li><b>全產業鏈壁壘高</b>：核素供應、熱室 GMP、配送時效要求極高，行業集中度 CR3 約 54%</li>
+        <li><b>商業化產品已落地</b>：歐韋寧®（XTR005，中國首個 AD 生物標誌物 PET 示蹤劑）、歐達樂®、18F-FDG</li>
+        <li><b>XTR008 差異化</b>：同類首個以化學藥品 3 類提交 NDA；同時推進 G3 GEP-NET 等新適應症（Lutathera 尚未覆蓋）</li>
+        <li>股東陣容含國資（國調基金、同輻基金）、茅台系、中金、中國人壽等</li>
+      </ul>
+      <h3>主要風險</h3>
+      <ul class="clean">
+        <li class="risk">仍處於商業化初期，收入規模小、持續大幅虧損（2025 淨虧約 6.18 億）</li>
+        <li class="risk">核素供應與產能利用率仍受限，商業化兌現速度存不確定性</li>
+        <li class="risk">18A 生物科技公司，管線失敗或審批延遲風險較高</li>
+        <li class="risk">無控股股東，股權相對分散</li>
+      </ul>
+      <div class="peer-box blue">
+        <h4>同行比較（中國核藥主要玩家）</h4>
+        <p>國內核藥市場以「三巨頭 + 創新梯隊」格局為主，先通屬創新驅動的第二梯隊。</p>
+        <table class="peer-table">
+          <tr>
+            <th>公司</th>
+            <th>定位</th>
+            <th>優勢 / 啟示</th>
+          </tr>
+          <tr>
+            <td><b>中國同輻</b><br>(01763.HK)</td>
+            <td>全產業鏈龍頭<br>市佔約 30%+</td>
+            <td>中核背景、核藥房網絡、核素供應優勢明顯；先通可對標其「規模與渠道」差距</td>
+          </tr>
+          <tr>
+            <td><b>東誠藥業</b><br>(002675.SZ)</td>
+            <td>核藥房 + 診療一體化</td>
+            <td>核藥房覆蓋廣、已有「篩查-診斷-治療」產品；先通在創新管線速度上具差異化</td>
+          </tr>
+          <tr>
+            <td><b>遠大醫藥</b><br>(00512.HK)</td>
+            <td>釔-90 微球等治療核藥</td>
+            <td>治療性核藥商業化領先；先通 XTR008 若順利獲批，有望切入同類治療市場</td>
+          </tr>
+          <tr>
+            <td><b>先通國際醫藥-B</b></td>
+            <td>創新核藥 + 全鏈能力</td>
+            <td>中國首個創新核藥獲批企業；管線豐富且臨近商業化，但規模與盈利仍遠落後三巨頭</td>
+          </tr>
+        </table>
       </div>
+      <p class="meta-line mt-16">聯席保薦人：廣發證券、中金公司、中信證券　｜　<a href="https://www1.hkexnews.hk/app/sehk/2026/109006/documents/sehk26102801583_c.pdf" target="_blank">聆訊後資料集</a></p>
     </div>
-
-    <!-- ========== SCREEN 1: Path Selection ========== -->
-    <div class="screen" id="screen-path">
-      <h1>選擇申請路徑</h1>
-      <p class="mb-8">系統已根據您的帳戶資料進行初步判斷。您亦可手動選擇：</p>
-
-      <button class="path-btn" id="pathA" onclick="selectPath('A')">
-        <span class="tag a">推薦 · 極速</span>
-        <strong>路徑 A：輝立內部資產即時核驗</strong>
-        <span>整合證券、期貨及現金帳戶實時估值，自動扣除債務，多幣種折算。適合內部資產已達標的客戶。</span>
-      </button>
-
-      <button class="path-btn" id="pathB" onclick="selectPath('B')">
-        <span class="tag b">外部證明</span>
-        <strong>路徑 B：上載外部資產與法定文件</strong>
-        <span>上載銀行/證券月結單、信託證明等。需人工審批，預計 1 個工作天內完成。</span>
-      </button>
-
-      <div class="card mt-16">
-        <p class="text-sm">系統偵測結果提示：目前內部資產估值（模擬）約 HKD 6.2M，未達 800 萬門檻，建議選擇路徑 B 或先轉入資產後再申請路徑 A。</p>
-      </div>
-    </div>
-
-    <!-- ========== SCREEN 2A: Path A - Internal ========== -->
-    <div class="screen" id="screen-pathA">
-      <h1>內部資產即時核驗</h1>
-      <p class="mb-8">系統正在整合您於輝立的證券、期貨及現金帳戶實時估值。</p>
-
-      <div class="card green">
-        <div class="summary-row">
-          <span class="label">證券帳戶市值</span>
-          <span class="value">HKD 5,820,000</span>
-        </div>
-        <div class="summary-row">
-          <span class="label">期貨帳戶權益</span>
-          <span class="value">HKD 1,150,000</span>
-        </div>
-        <div class="summary-row">
-          <span class="label">現金帳戶餘額</span>
-          <span class="value">HKD 980,000</span>
-        </div>
-        <div class="summary-row">
-          <span class="label">減：Margin 欠款 / 質押借貸</span>
-          <span class="value" style="color:var(--danger)">- HKD 420,000</span>
-        </div>
-        <div class="divider"></div>
-        <div class="summary-row">
-          <span class="label fw-600">Net Portfolio 淨資產</span>
-          <span class="value" style="color:var(--success);font-size:16px">HKD 7,530,000</span>
-        </div>
-        <p class="text-sm mt-8">估值日期：2026-11-03（當日收盤牌價折算）</p>
-      </div>
-
-      <div class="card yellow">
-        <p><strong>注意</strong>：目前淨資產 <span class="highlight">未達 HKD 8,000,000</span>。您可選擇：</p>
-        <ul class="list-disc mt-8">
-          <li>轉入額外資產後重新核驗</li>
-          <li>改用路徑 B 上載外部證明</li>
-        </ul>
-      </div>
-
-      <label class="consent-item mt-16">
-        <input type="checkbox" id="pathAConfirm">
-        <span>本人確認上述估值資料正確，並知悉淨資產計算已扣除內部債務。</span>
-      </label>
-    </div>
-
-    <!-- ========== SCREEN 2B: Path B - Upload ========== -->
-    <div class="screen" id="screen-pathB">
-      <h1>上傳資產證明</h1>
-      <p class="mb-8">請根據要求上傳有效的資產證明文件</p>
-
-      <table class="req-table">
-        <tr>
-          <th>接受證明</th>
-          <td>
-            • 銀行結單 / 證券結單 / 信託證明 / 資產證明<br>
-            • 可多份證明合併計算，請確保資產組合總值不低於 <span class="highlight">800 萬港元</span>（或等值外幣，請註明貨幣種類）
-          </td>
-        </tr>
-        <tr>
-          <th>發出日期</th>
-          <td>近一年內（如有多份證明，日期需相同）</td>
-        </tr>
-        <tr>
-          <th>證明內容</th>
-          <td>需包含：①本人姓名、②發出機構、③發出日期、④資產金額。確保整頁文件邊角清晰完整，<span class="req">不接受局部截圖或裁切文件</span></td>
-        </tr>
-      </table>
-
-      <h2>證明範例 <span class="text-sm" style="color:var(--accent);font-weight:400">（紅圈為必須清晰顯示的項目）</span></h2>
-      <div class="example-box">
-        <div class="badge" style="top:18px;left:20px">1</div>
-        <div class="badge" style="top:8px;left:140px">2</div>
-        <div class="badge" style="top:60px;right:80px">3</div>
-        <p class="text-sm" style="padding:40px 10px 20px;color:#999;text-align:center">
-          [示意] 銀行月結單範例<br>
-          ① 客戶姓名　② 發行機構　③ 有效日期 & 資產金額
-        </p>
-      </div>
-
-      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
-        <div class="icon">📄</div>
-        <p class="fw-600">點擊或拖放檔案上載</p>
-        <p class="text-sm mt-8">支援 PDF、JPG、PNG（建議清晰整頁掃描）</p>
-        <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleFiles(this.files)">
-      </div>
-      <div class="upload-list" id="uploadList"></div>
-    </div>
-
-    <!-- ========== SCREEN 3: Risk Disclosure 15.3B ========== -->
-    <div class="screen" id="screen-risk">
-      <h1>風險披露與後果揭示</h1>
-
-      <div class="rep-card">
-        <div style="width:48px;height:48px;border-radius:50%;background:#e0e0e0;display:flex;align-items:center;justify-content:center;font-size:22px">👤</div>
-        <div class="info">
-          <div class="name">持牌代表：葉頌銘</div>
-          <div class="lic">牌照號：BPI648</div>
-        </div>
-      </div>
-
-      <div class="scroll-hint" id="scrollHint">↓ 請滑動閱讀至底部以啟用同意框</div>
-
-      <div class="risk-box" id="riskBox" onscroll="checkScroll()">
-        <p><strong>1.</strong> 成功申請成為個人專業投資者之後，輝立證券可為您提供更多投資產品。但該類投資產品有可能未經香港證監會認可，因此您投資該類產品通常會帶有較高的風險。建議您在申請前先諮詢獨立第三方的專業意見。</p>
-        <br>
-        <p><strong>2.</strong> 在您成為個人專業投資者之後，您清楚明白輝立證券與您作為客戶的互動過程中，輝立證券可獲豁免履行《證券及期貨事務監察委員會持牌人或註冊人操守準則》第 15.5 段及《證券及期貨（成交單據、戶口結單及收據）規則》中訂明的某些要求。</p>
-        <br>
-        <p>儘管輝立證券實際上可能會向您提供以下部分或全部的服務／資訊，您明白輝立證券並不是基於監管責任而採取上述行動。輝立證券可獲豁免履行的相關義務如下：</p>
-        <br>
-        <p class="fw-600">為客戶提供資料</p>
-        <ul class="list-disc">
-          <li>輝立證券無需向您提供有關輝立證券的業務資料和其僱員及其他代表其行事的人士的身份和受僱狀況的資料；</li>
-          <li>完成交易後，輝立證券無需盡快與您確認有關該宗交易的重點；及</li>
-          <li>如你欲通過香港交易所交易納入納斯達克－美國證券交易所試驗計劃的證券，輝立證券無需向您提供關於該計劃的資料文件。</li>
-        </ul>
-        <br>
-        <p class="fw-600">向客戶提供成交單據、戶口結單或收據</p>
-        <ul class="list-disc">
-          <li>無需向您提供《成交單據規則》所要求的成交單據、戶口結單或收據。</li>
-        </ul>
-        <br>
-        <p><strong>撤回權利告知</strong>：您享有隨時以書面撤回專業投資者身分之權益。撤回申請提交後，將進入 <strong>10 個營業日通知期</strong>。通知期屆滿後，相關產品權限將被收回。</p>
-        <br>
-        <p>個人專業投資者嚴格限定為 <strong>Tier 1（15.5 豁免）</strong>。符合 15.3A 之法團可納入 Tier 2。</p>
-        <div style="height:20px"></div>
-        <p class="text-center text-sm" style="color:#999">— 已閱讀至底部 —</p>
-      </div>
-
-      <div id="consentArea" style="opacity:0.4;pointer-events:none">
-        <div class="consent-item">
-          <input type="checkbox" id="c1" onchange="checkConsents()">
-          <label for="c1">本人完全理解 15.3B 披露之專業投資者風險與免除法定保護之後果</label>
-        </div>
-        <div class="consent-item">
-          <input type="checkbox" id="c2" onchange="checkConsents()">
-          <label for="c2">本人自願接受專業投資者身分並確認上述所勾選之特定產品適用範圍</label>
-        </div>
-        <div class="consent-item">
-          <input type="checkbox" id="c3" onchange="checkConsents()">
-          <label for="c3">本人確認知悉並理解擁有隨時以書面撤回此 PI 身分或變更適用範圍的法定權利</label>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========== SCREEN 4: Review + OTP ========== -->
-    <div class="screen" id="screen-review">
-      <h1>申請摘要與電子驗證</h1>
-      <p class="mb-8">請核對以下資料，確認無誤後進行 OTP 驗證。</p>
-
-      <div class="card">
-        <div class="summary-row">
-          <span class="label">身分類別</span>
-          <span class="value">個人專業投資者 (Tier 1)</span>
-        </div>
-        <div class="summary-row">
-          <span class="label">核驗路徑</span>
-          <span class="value" id="reviewPath">—</span>
-        </div>
-        <div class="summary-row">
-          <span class="label">淨資產估值</span>
-          <span class="value" id="reviewValue">—</span>
-        </div>
-        <div class="summary-row">
-          <span class="label">產品授權範圍</span>
-          <span class="value">國際配售 / 債券 / VA 等</span>
-        </div>
-        <div class="summary-row">
-          <span class="label">風險披露</span>
-          <span class="value" style="color:var(--success)">已完成閱讀並同意</span>
-        </div>
-      </div>
-
-      <div class="card yellow">
-        <p class="text-sm">本人確認申報資料真實、若有變更將隨時主動匯報。輝立證券保留最終拒絕權。</p>
-      </div>
-
-      <h2>雙重簡訊認證</h2>
-      <p>驗證碼將發送至您已登記的手機號碼。聯名帳戶各持有者需各自單獨通過驗證。</p>
-
-      <div class="otp-inputs" id="otpBox">
-        <input maxlength="1" inputmode="numeric" oninput="moveOtp(this,0)">
-        <input maxlength="1" inputmode="numeric" oninput="moveOtp(this,1)">
-        <input maxlength="1" inputmode="numeric" oninput="moveOtp(this,2)">
-        <input maxlength="1" inputmode="numeric" oninput="moveOtp(this,3)">
-        <input maxlength="1" inputmode="numeric" oninput="moveOtp(this,4)">
-        <input maxlength="1" inputmode="numeric" oninput="moveOtp(this,5)">
-      </div>
-      <div class="otp-timer">
-        <span id="otpTimerText">驗證碼已發送 · <span id="countdown">60</span> 秒後可重新獲取</span>
-        <br><a href="javascript:void(0)" id="resendLink" style="display:none" onclick="resendOtp()">重新獲取驗證碼</a>
-      </div>
-    </div>
-
-    <!-- ========== SCREEN 5: Status Centre ========== -->
-    <div class="screen" id="screen-status">
-      <div class="result-icon wait">⏳</div>
-      <h1 class="text-center">申請已提交</h1>
-      <p class="text-center mb-8">我們已收到您的專業投資者認證申請</p>
-
-      <div class="card">
-        <div class="summary-row">
-          <span class="label">申請編號</span>
-          <span class="value">PI-20261103-88421</span>
-        </div>
-        <div class="summary-row">
-          <span class="label">當前狀態</span>
-          <span class="value"><span class="status-badge pending" id="statusBadge">Submitted / Under Review</span></span>
-        </div>
-        <div class="summary-row">
-          <span class="label">預計完成</span>
-          <span class="value" id="etaText">Path A：接近即時 · Path B：1 個工作天</span>
-        </div>
-      </div>
-
-      <div class="card blue">
-        <strong>狀態說明</strong>
-        <ul class="list-disc mt-8">
-          <li><strong>Submitted / Under Review</strong>：資料審核中</li>
-          <li><strong>Need More Info</strong>：需補件，將退回至路徑重新上載</li>
-          <li><strong>Approved / Rejected</strong>：最終結果</li>
-        </ul>
-      </div>
-
-      <p class="text-sm text-center mt-16" style="color:var(--text-sec)">審批結果將以 App 推送及電郵通知您。<br>您亦可隨時在「我的帳戶 → 專業投資者認證」查看進度。</p>
-    </div>
-
-    <!-- ========== SCREEN 6: Approved / Post ========== -->
-    <div class="screen" id="screen-approved">
-      <div class="result-icon ok">✓</div>
-      <h1 class="text-center">認證成功</h1>
-      <p class="text-center mb-8">您已成為輝立證券個人專業投資者</p>
-
-      <div class="card green">
-        <div class="summary-row">
-          <span class="label">生效日期</span>
-          <span class="value">2026-11-03</span>
-        </div>
-        <div class="summary-row">
-          <span class="label">有效期至</span>
-          <span class="value">2027-11-02（365 天）</span>
-        </div>
-        <div class="summary-row">
-          <span class="label">下次年審</span>
-          <span class="value">系統將於到期前自動提醒</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <strong>後續權益</strong>
-        <ul class="list-disc mt-8">
-          <li>產品權限已即時解鎖，可返回原先被攔截的下單頁面</li>
-          <li>Path A 客戶：若持倉仍 ≥ 800 萬，年審提供一鍵滾動確認續期</li>
-          <li>過期客戶重新認證時系統自動預填歷史數據</li>
-        </ul>
-      </div>
-
-      <div class="card yellow">
-        <strong>撤回入口</strong>
-        <p class="mt-8 text-sm">帳戶設定內常設 PI 身分變更與撤回入口。提交後進入 10 個營業日通知期。</p>
-      </div>
-    </div>
-
   </div>
 
-  <!-- Bottom Buttons -->
-  <div class="btn-group" id="btnGroup">
-    <button class="btn btn-secondary" id="btnPrev" style="display:none" onclick="goBack()">上一步</button>
-    <button class="btn btn-primary" id="btnNext" onclick="goNext()">立即認證</button>
+  <!-- ② 天賜材料 -->
+  <div class="ipo-panel" id="panel-tc">
+    <button type="button" class="ipo-panel-head" data-open="tc">
+      <div class="title-wrap">
+        <h2>② 天賜材料 <span class="badge green">★★★★★</span> <span class="badge">A+H · 002709.SZ</span></h2>
+        <p class="one-liner">全球電解液連續約 10 年出貨量第一 · 2026H1 淨利 +968% · 基本面仍最強</p>
+      </div>
+      <span class="chev">▼</span>
+    </button>
+    <div class="ipo-panel-body section-inner">
+      <div class="vote-widget" data-company="tinci">
+        <div class="vote-actions">
+          <button type="button" class="vbtn up" data-side="up">📈 升</button>
+          <button type="button" class="vbtn down" data-side="down">📉 跌</button>
+          <span class="vote-status" data-status></span>
+        </div>
+        <div class="meter">
+          <div class="meter-labels">
+            <span class="u" data-lab-up>📈 升 0% (0)</span>
+            <span class="d" data-lab-down>📉 跌 0% (0)</span>
+          </div>
+          <div class="meter-track"><div class="meter-up" data-meter style="width:50%"></div></div>
+        </div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="label">2025 收入</div><div class="val">約 167 億</div></div>
+        <div class="kpi"><div class="label">2026H1 收入</div><div class="val up">147 億 (+109%)</div></div>
+        <div class="kpi"><div class="label">2026H1 淨利</div><div class="val up">28.6 億 (+968%)</div></div>
+        <div class="kpi"><div class="label">預計集資</div><div class="val">約 55 億</div></div>
+      </div>
+      <h3>市場地位</h3>
+      <ul class="clean">
+        <li><b>全球電解液連續約 10 年出貨量第一</b>，2025 份額約 36%</li>
+        <li>全球最大六氟磷酸鋰及 LiFSI 供應商之一</li>
+        <li>垂直一體化（溶質 + 添加劑 + 電解液）成本優勢明顯</li>
+      </ul>
+      <h3>核心優勢</h3>
+      <ul class="clean">
+        <li><b>2026 業績 V 型反轉最強</b>：H1 淨利同比近 10 倍</li>
+        <li>全球化布局：募資約 80% 投海外（摩洛哥、美國等）</li>
+        <li>固態電解質等新技術儲備</li>
+        <li>A+H 後流動性與國際投資者覆蓋提升</li>
+      </ul>
+      <h3>主要風險</h3>
+      <ul class="clean">
+        <li class="risk">鋰電材料周期波動，價格與庫存風險仍在</li>
+        <li class="risk">海外產能爬坡與地緣政治不確定性</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ③ 宏芯宇電子（保留簡版） -->
+  <div class="ipo-panel" id="panel-hx">
+    <button type="button" class="ipo-panel-head" data-open="hx">
+      <div class="title-wrap">
+        <h2>③ 宏芯宇電子 <span class="badge">★★★★☆</span> <span class="badge">H · 存儲</span></h2>
+        <p class="one-liner">存儲模組 / NAND·DRAM · 由虧轉盈 · 集資規模較大</p>
+      </div>
+      <span class="chev">▼</span>
+    </button>
+    <div class="ipo-panel-body section-inner">
+      <div class="vote-widget" data-company="hosin">
+        <div class="vote-actions">
+          <button type="button" class="vbtn up" data-side="up">📈 升</button>
+          <button type="button" class="vbtn down" data-side="down">📉 跌</button>
+          <span class="vote-status" data-status></span>
+        </div>
+        <div class="meter">
+          <div class="meter-labels">
+            <span class="u" data-lab-up>📈 升 0% (0)</span>
+            <span class="d" data-lab-down>📉 跌 0% (0)</span>
+          </div>
+          <div class="meter-track"><div class="meter-up" data-meter style="width:50%"></div></div>
+        </div>
+      </div>
+      <p class="meta-line">預計集資約 26.8 億 · 詳情請參考最新聆訊後資料集</p>
+    </div>
+  </div>
+
+  <!-- 完整 13 家列表 -->
+  <div class="section">
+    <h2>已過聆訊公司一覽（13 家）</h2>
+    <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">預計總集資額約 201.7 億港元（按公開估計）</p>
+    <div class="other-item"><div class="num">1</div><div class="body"><div class="cname">坦博爾集團股份有限公司</div><div class="cinfo">預計集資 <b>約 20 億</b></div></div></div>
+    <div class="other-item"><div class="num">2</div><div class="body"><div class="cname">上海哥瑞利軟件股份有限公司</div><div class="cinfo">預計集資 <b>約 10 億</b></div></div></div>
+    <div class="other-item"><div class="num">3</div><div class="body"><div class="cname">永康控股有限公司</div><div class="cinfo">預計集資 <b>約 7.8 億</b></div></div></div>
+    <div class="other-item"><div class="num">4</div><div class="body"><div class="cname">深圳四方精創資訊股份有限公司</div><div class="cinfo">預計集資 <b>約 9.43 億</b></div></div></div>
+    <div class="other-item"><div class="num">5</div><div class="body"><div class="cname">湖南軍信環保股份有限公司 (301109.SZ)</div><div class="cinfo">A+H · 預計集資 <b>約 20 億</b></div></div></div>
+    <div class="other-item"><div class="num">6</div><div class="body"><div class="cname">浙江濤濤車業股份有限公司 (301345.SZ)</div><div class="cinfo">A+H · 預計集資 <b>約 19.5 億</b></div></div></div>
+    <div class="other-item"><div class="num">7</div><div class="body"><div class="cname">安徽希磁科技股份有限公司</div><div class="cinfo">預計集資 <b>約 15 億</b></div></div></div>
+    <div class="other-item"><div class="num">8</div><div class="body"><div class="cname">廣州天賜高新材料股份有限公司 (002709.SZ)</div><div class="cinfo">A+H · 預計集資 <b>約 55 億</b></div></div></div>
+    <div class="other-item"><div class="num">9</div><div class="body"><div class="cname">江蘇瘦西湖文化旅游股份有限公司</div><div class="cinfo">預計集資 <b>約 2.27 億</b></div></div></div>
+    <div class="other-item"><div class="num">10</div><div class="body"><div class="cname">常州微億智造科技股份有限公司</div><div class="cinfo">預計集資 <b>約 8 億</b></div></div></div>
+    <div class="other-item"><div class="num">11</div><div class="body"><div class="cname">深圳創智芯聯科技股份有限公司</div><div class="cinfo">預計集資 <b>約 15 億</b></div></div></div>
+    <div class="other-item"><div class="num">12</div><div class="body"><div class="cname">贛州和美藥業股份有限公司</div><div class="cinfo">18A · 預計集資 <b>約 9.7 億</b>（已延遲上市）</div></div></div>
+    <div class="other-item"><div class="num">13</div><div class="body"><div class="cname">北京先通國際醫藥科技股份有限公司 - B</div><div class="cinfo">18A 核藥 · 預計集資 <b>約 10 億</b> · <a href="https://www1.hkexnews.hk/app/sehk/2026/109006/documents/sehk26102801583_c.pdf" target="_blank">聆訊後資料集</a></div></div></div>
+  </div>
+
+  <div class="section">
+    <h2>打新建議（精簡）</h2>
+    <ul class="clean">
+      <li><b>★★★★★ 先通國際醫藥-B</b>：中國創新核藥領跑者 + 全產業鏈能力 + 核心產品臨近商業化，適合看好核藥長期賽道的投資者（高風險高潛力）。</li>
+      <li><b>★★★★★ 天賜材料</b>：基本面與業績兌現最強，A+H 流動性佳，適合相對穩健配置。</li>
+      <li>其餘標的建議按個人風險承受度與行業偏好個別篩選。</li>
+    </ul>
+    <p style="margin-top:12px;font-size:12.5px;color:var(--gray);text-align:left;">注：僅供參考，不構成投資建議。港股打新存在破發風險。和美藥業已宣布延遲上市。</p>
+  </div>
+  <div class="footer">
+    輝立證券新股部 ｜ 數據來源：港交所聆訊後資料集 ｜ 2026年11月10日<br>
+    <a href="https://pshk-ipo.github.io/phillip-ipo/" style="color:#718096;">GitHub Pages 永久免費版</a>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  // ========== State ==========
-  const screens = ['hub','path','pathA','pathB','risk','review','status','approved'];
-  let current = 0;
-  let selectedPath = null; // 'A' or 'B'
-  let riskScrolled = false;
-  let files = [];
-  let otpTimer = null;
+(function () {
+  var SUPABASE_URL = "https://dqvqtmdnuzryowktbtgt.supabase.co";
+  var SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxdnF0bWRudXpyeW93a3RidGd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2NTEzOTgsImV4cCI6MjEwODIyNzM5OH0.PWvX7llsDDSOd5DdA7NtGwAW14jD34dj1aRpk7m-YPk";
 
-  // ========== Navigation ==========
-  function showScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById('screen-' + id).classList.add('active');
-    document.getElementById('mainContent').scrollTop = 0;
-    updateUI();
+  var KEYS = ["xiantong", "tinci", "hosin"];
+  var DB_ID = { xiantong: "xiantong", tinci: "tianci", hosin: "hongxinyu" };
+  var NAMES = { xiantong: "先通國際醫藥-B", tinci: "天賜材料", hosin: "宏芯宇電子" };
+  var MY_STORE = "ipo_my_vote_supabase_v2";
+
+  var bar = document.getElementById("connBar");
+  function setBar(msg, isErr) {
+    if (!bar) return;
+    bar.textContent = msg;
+    bar.classList.add("show");
+    if (isErr) bar.classList.add("err"); else bar.classList.remove("err");
   }
 
-  function updateUI() {
-    const id = screens[current];
-    const titles = {
-      hub: '專業投資者認證',
-      path: '選擇申請路徑',
-      pathA: '內部資產核驗',
-      pathB: '上傳資產證明',
-      risk: '風險披露',
-      review: '申請摘要與驗證',
-      status: '申請狀態',
-      approved: '認證結果'
-    };
-    document.getElementById('headerTitle').textContent = titles[id] || '專業投資者認證';
+  if (!SUPABASE_KEY || SUPABASE_KEY.indexOf("PASTE_") === 0 || SUPABASE_KEY.length < 40) {
+    setBar("請先把完整 anon public key 貼進 index.html 的 SUPABASE_KEY", true);
+  }
 
-    // Progress
-    const progressMap = { hub:8, path:20, pathA:40, pathB:40, risk:60, review:80, status:90, approved:100 };
-    document.getElementById('progressBar').style.width = (progressMap[id] || 0) + '%';
+  var sb = null;
+  try {
+    if (window.supabase && SUPABASE_KEY && SUPABASE_KEY.indexOf("PASTE_") !== 0) {
+      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
+  } catch (e) {
+    console.error(e);
+    setBar("Supabase 初始化失敗：" + (e && e.message ? e.message : e), true);
+  }
 
-    // Buttons
-    const btnNext = document.getElementById('btnNext');
-    const btnPrev = document.getElementById('btnPrev');
-    const btnGroup = document.getElementById('btnGroup');
+  var counts = { xiantong: { up: 0, down: 0 }, tinci: { up: 0, down: 0 }, hosin: { up: 0, down: 0 } };
+  var busy = false;
 
-    btnPrev.style.display = (current === 0 || id === 'status' || id === 'approved') ? 'none' : 'block';
+  function loadMy() {
+    try { return JSON.parse(localStorage.getItem(MY_STORE) || "{}"); } catch (e) { return {}; }
+  }
+  function saveMy(o) {
+    try { localStorage.setItem(MY_STORE, JSON.stringify(o)); } catch (e) {}
+  }
+  function toast(msg) {
+    var old = document.querySelector(".toast");
+    if (old) old.remove();
+    var t = document.createElement("div");
+    t.className = "toast";
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function () { t.remove(); }, 1800);
+  }
 
-    if (id === 'hub') {
-      btnNext.textContent = '立即認證';
-      btnNext.disabled = false;
-      btnNext.onclick = () => { current = 1; showScreen('path'); };
-    } else if (id === 'path') {
-      btnNext.textContent = '繼續';
-      btnNext.disabled = !selectedPath;
-      btnNext.onclick = () => {
-        if (selectedPath === 'A') { current = 2; showScreen('pathA'); }
-        else { current = 3; showScreen('pathB'); }
-      };
-    } else if (id === 'pathA') {
-      btnNext.textContent = '下一步';
-      btnNext.disabled = !document.getElementById('pathAConfirm').checked;
-      btnNext.onclick = () => { current = 4; showScreen('risk'); };
-      document.getElementById('pathAConfirm').onchange = () => updateUI();
-    } else if (id === 'pathB') {
-      btnNext.textContent = '下一步';
-      btnNext.disabled = files.length === 0;
-      btnNext.onclick = () => { current = 4; showScreen('risk'); };
-    } else if (id === 'risk') {
-      btnNext.textContent = '下一步';
-      btnNext.disabled = !(riskScrolled && document.getElementById('c1').checked && document.getElementById('c2').checked && document.getElementById('c3').checked);
-      btnNext.onclick = () => {
-        document.getElementById('reviewPath').textContent = selectedPath === 'A' ? '路徑 A（內部資產）' : '路徑 B（外部證明）';
-        document.getElementById('reviewValue').textContent = selectedPath === 'A' ? 'HKD 7,530,000（未達標提示）' : '待人工核實';
-        current = 5; showScreen('review');
-        startOtpTimer();
-      };
-    } else if (id === 'review') {
-      btnNext.textContent = '提交申請';
-      btnNext.disabled = !isOtpComplete();
-      btnNext.onclick = () => {
-        current = 6; showScreen('status');
-        // Simulate approval after delay for demo
-        setTimeout(() => {
-          if (selectedPath === 'A') {
-            // For demo: Path A still shows under review then can jump
+  function paint() {
+    var my = loadMy();
+    KEYS.forEach(function (k) {
+      var c = counts[k] || { up: 0, down: 0 };
+      var up = c.up || 0, down = c.down || 0, total = up + down;
+      var upPct = total ? Math.round((up / total) * 100) : 0;
+      var downPct = total ? 100 - upPct : 0;
+      var hero = document.querySelector('[data-sum="' + k + '"]');
+      if (hero) {
+        hero.innerHTML =
+          '<span class="vote-pill up">🐮 ' + up + '</span>' +
+          '<span class="vote-pill down">🐻 ' + down + '</span>';
+      }
+      var w = document.querySelector('.vote-widget[data-company="' + k + '"]');
+      if (!w) return;
+      var labUp = w.querySelector("[data-lab-up]");
+      var labDown = w.querySelector("[data-lab-down]");
+      var meter = w.querySelector("[data-meter]");
+      var status = w.querySelector("[data-status]");
+      if (labUp) labUp.textContent = "📈 升 " + upPct + "% (" + up + ")";
+      if (labDown) labDown.textContent = "📉 跌 " + downPct + "% (" + down + ")";
+      if (meter) meter.style.width = (total ? upPct : 50) + "%";
+      w.querySelectorAll(".vbtn").forEach(function (btn) {
+        btn.classList.remove("on");
+        if (my[k] && btn.getAttribute("data-side") === my[k]) btn.classList.add("on");
+      });
+      if (status) {
+        if (my[k] === "up") status.innerHTML = "你已投：<b>升</b> · 全組共 " + total + " 票";
+        else if (my[k] === "down") status.innerHTML = "你已投：<b>跌</b> · 全組共 " + total + " 票";
+        else status.innerHTML = total ? ("全組共 <b>" + total + "</b> 票") : "尚未有票";
+      }
+    });
+  }
+
+  async function fetchVotes() {
+    if (!sb) return;
+    try {
+      var res = await sb.from("ipo_votes").select("id,up_votes,down_votes");
+      if (res.error) {
+        console.error(res.error);
+        setBar("讀取失敗：" + (res.error.message || JSON.stringify(res.error)), true);
+        return;
+      }
+      (res.data || []).forEach(function (row) {
+        KEYS.forEach(function (k) {
+          if (DB_ID[k] === row.id) {
+            counts[k] = { up: row.up_votes || 0, down: row.down_votes || 0 };
           }
-        }, 1500);
-      };
-    } else if (id === 'status') {
-      btnNext.textContent = '模擬審批通過';
-      btnNext.disabled = false;
-      btnNext.onclick = () => { current = 7; showScreen('approved'); };
-      btnPrev.style.display = 'none';
-    } else if (id === 'approved') {
-      btnNext.textContent = '完成';
-      btnNext.disabled = false;
-      btnNext.onclick = () => showToast('已返回帳戶首頁（演示結束）');
-      btnPrev.style.display = 'none';
+        });
+      });
+      if (bar) { bar.classList.remove("show"); bar.classList.remove("err"); }
+      paint();
+    } catch (e) {
+      console.error(e);
+      setBar("網路錯誤：" + (e && e.message ? e.message : e), true);
     }
   }
 
-  function goBack() {
-    if (current <= 0) return;
-    if (screens[current] === 'risk') {
-      current = selectedPath === 'A' ? 2 : 3;
-    } else if (screens[current] === 'pathA' || screens[current] === 'pathB') {
-      current = 1;
-    } else {
-      current--;
+  async function cast(company, side) {
+    if (!sb) {
+      toast("請先設定完整 SUPABASE_KEY");
+      return;
     }
-    // Adjust for non-linear
-    if (screens[current] === 'pathA' && selectedPath !== 'A') current = 1;
-    if (screens[current] === 'pathB' && selectedPath !== 'B') current = 1;
-    showScreen(screens[current]);
-  }
-
-  function goNext() {
-    // Handled by onclick in updateUI
-  }
-
-  // ========== Path Selection ==========
-  function selectPath(p) {
-    selectedPath = p;
-    document.getElementById('pathA').classList.toggle('selected', p === 'A');
-    document.getElementById('pathB').classList.toggle('selected', p === 'B');
-    updateUI();
-  }
-
-  // ========== Risk Scroll ==========
-  function checkScroll() {
-    const box = document.getElementById('riskBox');
-    if (box.scrollTop + box.clientHeight >= box.scrollHeight - 30) {
-      riskScrolled = true;
-      document.getElementById('scrollHint').textContent = '✓ 已閱讀完畢';
-      document.getElementById('scrollHint').classList.add('scroll-done');
-      document.getElementById('consentArea').style.opacity = '1';
-      document.getElementById('consentArea').style.pointerEvents = 'auto';
-      updateUI();
+    if (busy) return;
+    busy = true;
+    document.querySelectorAll(".vbtn").forEach(function (b) { b.disabled = true; });
+    var my = loadMy();
+    var prev = my[company];
+    var dbId = DB_ID[company];
+    try {
+      var cur = await sb.from("ipo_votes").select("up_votes,down_votes").eq("id", dbId).single();
+      if (cur.error) throw cur.error;
+      var up = (cur.data && cur.data.up_votes) || 0;
+      var down = (cur.data && cur.data.down_votes) || 0;
+      if (prev === side) {
+        if (side === "up") up = Math.max(0, up - 1);
+        else down = Math.max(0, down - 1);
+        delete my[company];
+        toast("已取消");
+      } else {
+        if (prev === "up") up = Math.max(0, up - 1);
+        if (prev === "down") down = Math.max(0, down - 1);
+        if (side === "up") up += 1; else down += 1;
+        my[company] = side;
+        toast((side === "up" ? "📈 升" : "📉 跌") + " · " + (NAMES[company] || ""));
+      }
+      var upd = await sb.from("ipo_votes").update({ up_votes: up, down_votes: down }).eq("id", dbId);
+      if (upd.error) throw upd.error;
+      counts[company] = { up: up, down: down };
+      saveMy(my);
+      paint();
+    } catch (e) {
+      console.error(e);
+      var msg = (e && e.message) ? e.message : String(e);
+      toast("同步失敗：" + msg);
+      setBar("寫入失敗：" + msg, true);
     }
+    busy = false;
+    document.querySelectorAll(".vbtn").forEach(function (b) { b.disabled = false; });
   }
 
-  function checkConsents() {
-    updateUI();
-  }
-
-  // ========== Upload ==========
-  function handleFiles(fileList) {
-    for (let f of fileList) {
-      files.push(f);
-      const div = document.createElement('div');
-      div.className = 'upload-item';
-      div.innerHTML = `<span class="name">📄 ${f.name}</span><span class="remove" onclick="removeFile(this,'${f.name}')">×</span>`;
-      document.getElementById('uploadList').appendChild(div);
-    }
-    updateUI();
-  }
-
-  function removeFile(el, name) {
-    files = files.filter(f => f.name !== name);
-    el.parentElement.remove();
-    updateUI();
-  }
-
-  // Drag & drop
-  const zone = document.getElementById('uploadZone');
-  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
-  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
-  zone.addEventListener('drop', e => {
-    e.preventDefault();
-    zone.classList.remove('dragover');
-    handleFiles(e.dataTransfer.files);
+  document.querySelectorAll(".vote-widget").forEach(function (w) {
+    w.querySelectorAll(".vbtn").forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        cast(w.getAttribute("data-company"), btn.getAttribute("data-side"));
+      });
+    });
   });
 
-  // ========== OTP ==========
-  function moveOtp(el, idx) {
-    if (el.value && idx < 5) {
-      el.nextElementSibling?.focus();
+  function openPanel(id, scroll) {
+    var panel = document.getElementById("panel-" + id);
+    if (!panel) return;
+    var was = panel.classList.contains("open");
+    document.querySelectorAll(".ipo-panel.open").forEach(function (p) {
+      if (p !== panel) p.classList.remove("open");
+    });
+    document.querySelectorAll(".hero-card.active").forEach(function (c) {
+      c.classList.remove("active");
+    });
+    if (!was) {
+      panel.classList.add("open");
+      var hero = document.getElementById("hero-" + id);
+      if (hero) hero.classList.add("active");
+      if (scroll) setTimeout(function () {
+        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 40);
+    } else {
+      panel.classList.remove("open");
     }
-    updateUI();
   }
-  function isOtpComplete() {
-    const inputs = document.querySelectorAll('#otpBox input');
-    return Array.from(inputs).every(i => i.value.length === 1);
-  }
-  function startOtpTimer() {
-    let sec = 60;
-    document.getElementById('countdown').textContent = sec;
-    document.getElementById('otpTimerText').style.display = 'inline';
-    document.getElementById('resendLink').style.display = 'none';
-    clearInterval(otpTimer);
-    otpTimer = setInterval(() => {
-      sec--;
-      document.getElementById('countdown').textContent = sec;
-      if (sec <= 0) {
-        clearInterval(otpTimer);
-        document.getElementById('otpTimerText').style.display = 'none';
-        document.getElementById('resendLink').style.display = 'inline';
-      }
-    }, 1000);
-  }
-  function resendOtp() {
-    showToast('驗證碼已重新發送');
-    startOtpTimer();
-  }
+  document.querySelectorAll("[data-open]").forEach(function (el) {
+    el.addEventListener("click", function () {
+      openPanel(el.getAttribute("data-open"), el.classList.contains("hero-card"));
+    });
+  });
 
-  // ========== Toast ==========
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
-  }
-
-  // Clock
-  setInterval(() => {
-    const now = new Date();
-    document.getElementById('clock').textContent = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
-  }, 1000);
-
-  // Init
-  updateUI();
+  paint();
+  fetchVotes();
+  setInterval(fetchVotes, 10000);
+})();
 </script>
 </body>
 </html>
